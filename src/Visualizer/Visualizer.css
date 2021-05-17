@@ -18,6 +18,11 @@ button {
   background: hsla(32, 92%, 74%, 1);
   filter: drop-shadow(0px 10px 4px rgba(0, 0, 0, 0.05));
 }
+
+button:hover {
+  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
 .flex-box {
   display: flex;
   flex-direction: row;
@@ -40,11 +45,15 @@ button {
   margin: auto 0;
   font-size: 1.2em;
   font-family: "Roboto";
-  font-weight: 500;
+  font-weight: 300;
 }
 .nav-item {
   padding: 10px;
   margin: auto;
+}
+.nav-item:hover {
+  color: hsla(32, 92%, 74%, 1);
+  text-decoration: underline;
 }
 .between {
   justify-content: space-between;

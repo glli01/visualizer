@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Node from "./Node/Node";
 import "./Visualizer.css";
 import { dijkstra, getNodesInShortestPathOrder } from "../algorithms/dijkstra";
+import { bfs } from "../algorithms/bfs";
 //arbitrary contents to decide grid size.
 //TODO: Responsive
 // refactor so that this is calculated by screen size.
@@ -24,15 +25,12 @@ const Visualizer = () => {
 
   const handleMouseDown = (row, col) => {
     //mouse down handler
-    console.log("MouseDown");
     const newGrid = getNewGridWithWall(state.grid, row, col); // calls funct to set walls
     setState({ grid: newGrid, mouseIsPressed: true }); // sets and rerenders app
   };
 
   const handleMouseEnter = (row, col) => {
     //mouse enter handler (when cursor goes into square)
-    console.log("MouseEnter");
-    console.log(state);
     if (!state.mouseIsPressed) return; // do nothing if mouse isn't held down
     const newGrid = getNewGridWithWall(state.grid, row, col);
     let newState = state;
@@ -81,11 +79,36 @@ const Visualizer = () => {
     }
   };
 
+  const resetVisited = (grid) => {
+    for (let row = 0; row < 20; row++) {
+      for (let col = 0; col < 50; col++) {
+        const node = grid[row][col];
+        node.isVisited = false;
+        node.previousNode = null;
+        document.getElementById(`node-${row}-${col}`).className = "node";
+        if (node.isWall)
+          document
+            .getElementById(`node-${row}-${col}`)
+            .classList.add("node-wall");
+        if (node.isStart)
+          document
+            .getElementById(`node-${row}-${col}`)
+            .classList.add("node-start");
+        if (node.isFinish)
+          document
+            .getElementById(`node-${row}-${col}`)
+            .classList.add("node-finish");
+      }
+    }
+  };
+
   const visualizeDijkstra = () => {
     const { grid } = state; //same as stating const grid = state.grid;
+    resetVisited(grid);
+    setState({ ...state, grid });
     const startNode = grid[START_NODE_ROW][START_NODE_COL];
     const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
-    const visitedNodesInOrder = dijkstra(grid, startNode, finishNode); //sets nodes in order
+    const visitedNodesInOrder = bfs(grid, startNode, finishNode); //sets nodes in order
     //to array returned from dijkstra algorithm under algorithm/ dijkstra.js
     //dijkstra's = take nieghbors unvisited, set new dist. until all nodes visited/end
     // at end, will have shortest dist bc first time a node is visited is guaranteed
@@ -114,7 +137,7 @@ const Visualizer = () => {
     return {
       col,
       row,
-      isStart: row === START_NODE_ROW && col == START_NODE_COL,
+      isStart: row === START_NODE_ROW && col === START_NODE_COL,
       isFinish: row === FINISH_NODE_ROW && col === FINISH_NODE_COL,
       distance: Infinity,
       isVisited: false,
@@ -125,7 +148,6 @@ const Visualizer = () => {
 
   const getNewGridWithWall = (grid, row, col) => {
     //add walls
-    console.log("getNewGridwwall");
     const newGrid = grid.slice(); //shallow copy of grid
     const node = newGrid[row][col];
     const newNode = {
@@ -133,7 +155,7 @@ const Visualizer = () => {
       ...node,
       isWall: !node.isWall,
     };
-    newGrid[row][col] = newNode; // updates node in newGrid
+    if (!node.isStart && !node.isFinish) newGrid[row][col] = newNode; // updates node in newGrid
     return newGrid;
   };
 
@@ -142,11 +164,11 @@ const Visualizer = () => {
       <div className="nav-bar flex-box between">
         <div className="logo">PATH VISUALIZER</div>
         <div className="directory flex-box">
-          <div className="nav-item">ASDF</div>
-          <div className="nav-item">DFSFLL</div>
-          <div className="nav-item">POMKDKD</div>
-          <div className="nav-item">POMMME</div>
-          <div className="nav-item">ADSFKJLK</div>
+          <div className="nav-item">algorithm</div>
+          <div className="nav-item">algorithm</div>
+          <div className="nav-item">algorithm</div>
+          <div className="nav-item">algorithm</div>
+          <div className="nav-item">algorithm</div>
           <button onClick={() => visualizeDijkstra()}>VISUALIZE</button>
         </div>
       </div>
