@@ -7,10 +7,13 @@ import { bfs } from "../algorithms/bfs";
 //arbitrary contents to decide grid size.
 //TODO: Responsive
 // refactor so that this is calculated by screen size.
-const START_NODE_ROW = 10;
-const START_NODE_COL = 15;
-const FINISH_NODE_ROW = 10;
-const FINISH_NODE_COL = 35;
+let START_NODE_ROW = 10;
+let START_NODE_COL = 15;
+let FINISH_NODE_ROW = 10;
+let FINISH_NODE_COL = 35;
+const MARGIN = 100;
+let grid_cols;
+let grid_rows;
 const Visualizer = () => {
   //defining the visualizer as a functional component instead of
   // a class
@@ -18,6 +21,19 @@ const Visualizer = () => {
   // parts of state.
   // componentDidMount
   useEffect(() => {
+    // Calculate columns and rows
+    grid_cols = Math.floor((window.innerWidth - MARGIN) / 25);
+    grid_rows = Math.floor(
+      (window.innerHeight -
+        document.querySelector(".nav-bar").offsetHeight -
+        MARGIN) /
+        25
+    );
+    // calculate start_node_row / col
+    START_NODE_COL = Math.floor(grid_cols / 6);
+    START_NODE_ROW = Math.ceil(grid_rows / 2);
+    FINISH_NODE_COL = Math.floor((grid_cols / 6) * 5);
+    FINISH_NODE_ROW = Math.ceil(grid_rows / 2);
     const grid = getInitialGrid(); //calls getInitialGrid which calculates and formulates
     //grid shape of the app.
     setState({ grid }); // sets state property grid to be grid.
@@ -80,8 +96,8 @@ const Visualizer = () => {
   };
 
   const resetVisited = (grid) => {
-    for (let row = 0; row < 20; row++) {
-      for (let col = 0; col < 50; col++) {
+    for (let row = 0; row < grid_rows; row++) {
+      for (let col = 0; col < grid_cols; col++) {
         const node = grid[row][col];
         node.isVisited = false;
         node.previousNode = null;
@@ -121,10 +137,10 @@ const Visualizer = () => {
   //GRID functions
   const getInitialGrid = () => {
     const grid = []; // initial empty array.
-    for (let row = 0; row < 20; row++) {
+    for (let row = 0; row < grid_rows; row++) {
       // 20 x 50 grid
       const currentRow = [];
-      for (let col = 0; col < 50; col++) {
+      for (let col = 0; col < grid_cols; col++) {
         currentRow.push(createNode(col, row)); // pushes nodes into each row
       }
       grid.push(currentRow);
@@ -161,7 +177,7 @@ const Visualizer = () => {
 
   return (
     <>
-      <div className="nav-bar flex-box between">
+      <div className="nav-bar flex-box between" id="nav-bar">
         <div className="logo">PATH VISUALIZER</div>
         <div className="directory flex-box">
           <div className="nav-item">algorithm</div>
@@ -172,6 +188,8 @@ const Visualizer = () => {
           <button onClick={() => visualizeDijkstra()}>VISUALIZE</button>
         </div>
       </div>
+
+      {/* GRID */}
       <div className="grid">
         {state.grid.map((row, rowIDx) => {
           // element, index mapping fct.
