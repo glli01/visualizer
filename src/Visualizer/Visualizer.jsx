@@ -175,6 +175,27 @@ const Visualizer = () => {
     return newGrid;
   };
 
+  const clearGrid = () => {
+    const { grid } = state;
+    for (let row = 0; row < grid_rows; row++) {
+      for (let col = 0; col < grid_cols; col++) {
+        const node = grid[row][col];
+        node.isVisited = false;
+        node.previousNode = null;
+        node.isWall = false;
+        document.getElementById(`node-${row}-${col}`).className = "node";
+        if (node.isStart)
+          document
+            .getElementById(`node-${row}-${col}`)
+            .classList.add("node-start");
+        if (node.isFinish)
+          document
+            .getElementById(`node-${row}-${col}`)
+            .classList.add("node-finish");
+      }
+    }
+  };
+
   return (
     <>
       <div className="nav-bar flex-box between" id="nav-bar">
@@ -185,6 +206,7 @@ const Visualizer = () => {
           <div className="nav-item">algorithm</div>
           <div className="nav-item">algorithm</div>
           <div className="nav-item">algorithm</div>
+          <button onClick={() => clearGrid()}>Clear</button>
           <button onClick={() => visualizeDijkstra()}>VISUALIZE</button>
         </div>
       </div>
