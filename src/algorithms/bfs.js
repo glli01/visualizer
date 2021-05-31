@@ -24,14 +24,6 @@ const updateUnvisitedNodes = (node, grid, queue) => {
   }
 };
 
-export function updateUnvisitedNeighbors(node, grid) {
-  const unvisitedNeighbors = getUnvisitedNeighbors(node, grid);
-  for (const neighbor of unvisitedNeighbors) {
-    neighbor.distance = node.distance + 1;
-    neighbor.previousNode = node;
-  }
-}
-
 export function getUnvisitedNeighbors(node, grid) {
   console.log("In getUnvisited Neighbors");
   const neighbors = [];

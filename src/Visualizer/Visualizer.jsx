@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import React, { useState } from "react";
 import Node from "./Node/Node";
 import "./Visualizer.css";
+import { astar } from "../algorithms/astar";
 import { dijkstra, getNodesInShortestPathOrder } from "../algorithms/dijkstra";
 import { bfs } from "../algorithms/bfs";
 //arbitrary contents to decide grid size.
@@ -129,9 +130,9 @@ const Visualizer = () => {
     //dijkstra's = take nieghbors unvisited, set new dist. until all nodes visited/end
     // at end, will have shortest dist bc first time a node is visited is guaranteed
     // to be the lowest dist.  (greedy)
-    const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode); // sets nodes
+    // const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode); // sets nodes
     // in shortestpath order to the prev chaining from method getNodesInShortestPath.
-    animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder); // calls animation
+    // animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder); // calls animation
   };
 
   //GRID functions
@@ -208,7 +209,7 @@ const Visualizer = () => {
           <div className="nav-item">algorithm</div>
           <div className="nav-item">algorithm</div>
           <button onClick={() => clearGrid()}>Clear</button>
-          <button onClick={() => visualize(bfs)}>VISUALIZE</button>
+          <button onClick={() => visualize(astar)}>VISUALIZE</button>
         </div>
       </div>
 
