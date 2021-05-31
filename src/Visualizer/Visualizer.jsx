@@ -70,7 +70,7 @@ const Visualizer = () => {
         setTimeout(() => {
           animateShortestPath(nodesInShortestPathOrder); //this will set classes
           //to facilitate animation (yellow)
-        }, 10 * i); // calls animate shortest path every w/ step delay
+        }, 5 * i); // calls animate shortest path every w/ step delay
       } else {
         setTimeout(() => {
           //hacky way to display changes
@@ -79,7 +79,7 @@ const Visualizer = () => {
           const node = visitedNodesInOrder[i];
           document.getElementById(`node-${node.row}-${node.col}`).className =
             "node node-visited"; //sets node-visited for css animation (blue)
-        }, 10 * i);
+        }, 5 * i);
       }
     }
   };
@@ -118,13 +118,13 @@ const Visualizer = () => {
     }
   };
 
-  const visualizeDijkstra = () => {
+  const visualize = (funct) => {
     const { grid } = state; //same as stating const grid = state.grid;
     resetVisited(grid);
     setState({ ...state, grid });
     const startNode = grid[START_NODE_ROW][START_NODE_COL];
     const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
-    const visitedNodesInOrder = bfs(grid, startNode, finishNode); //sets nodes in order
+    const visitedNodesInOrder = funct(grid, startNode, finishNode); //sets nodes in order
     //to array returned from dijkstra algorithm under algorithm/ dijkstra.js
     //dijkstra's = take nieghbors unvisited, set new dist. until all nodes visited/end
     // at end, will have shortest dist bc first time a node is visited is guaranteed
@@ -207,7 +207,7 @@ const Visualizer = () => {
           <div className="nav-item">algorithm</div>
           <div className="nav-item">algorithm</div>
           <button onClick={() => clearGrid()}>Clear</button>
-          <button onClick={() => visualizeDijkstra()}>VISUALIZE</button>
+          <button onClick={() => visualize(bfs)}>VISUALIZE</button>
         </div>
       </div>
 
