@@ -8,10 +8,10 @@ import { bfs } from "../algorithms/bfs";
 //arbitrary contents to decide grid size.
 //TODO: Responsive
 // refactor so that this is calculated by screen size.
-let START_NODE_ROW = 10;
-let START_NODE_COL = 15;
-let FINISH_NODE_ROW = 10;
-let FINISH_NODE_COL = 35;
+let nSTART_NODE_ROW = 10;
+let nSTART_NODE_COL = 15;
+let nFINISH_NODE_ROW = 10;
+let nFINISH_NODE_COL = 35;
 const MARGIN = 100;
 let grid_cols;
 let grid_rows;
@@ -21,6 +21,12 @@ const Visualizer = () => {
   const [state, setState] = useState({
     grid: [],
     mouseIsPressed: false,
+  });
+  const [startOrEnd, setStartOrEnd] = useState({
+    START_NODE_COL: 15,
+    START_NODE_ROW: 10,
+    FINISH_NODE_COL: 35,
+    FINISH_NODE_ROW: 10,
   });
   const [visualizeFunct, setVisualizeFunct] = useState(() => dijkstra); // define necessary
   // parts of state.
@@ -35,13 +41,20 @@ const Visualizer = () => {
         25
     );
     // calculate start_node_row / col
-    START_NODE_COL = Math.floor(grid_cols / 6);
-    START_NODE_ROW = Math.ceil(grid_rows / 2);
-    FINISH_NODE_COL = Math.floor((grid_cols / 6) * 5);
-    FINISH_NODE_ROW = Math.ceil(grid_rows / 2);
-    const grid = getInitialGrid(); //calls getInitialGrid which calculates and formulates
-    //grid shape of the app.
-    setState({ grid }); // sets state property grid to be grid.
+    nSTART_NODE_COL = Math.floor(grid_cols / 6);
+    nSTART_NODE_ROW = Math.ceil(grid_rows / 2);
+    nFINISH_NODE_COL = Math.floor((grid_cols / 6) * 5);
+    nFINISH_NODE_ROW = Math.ceil(grid_rows / 2);
+    setStartOrEnd({
+      START_NODE_COL: nSTART_NODE_COL,
+      START_NODE_ROW: nSTART_NODE_ROW,
+      FINISH_NODE_COL: nFINISH_NODE_COL,
+      FINISH_NODE_ROW: nFINISH_NODE_ROW,
+    });
+    console.log("nSTart" + nSTART_NODE_ROW + " " + nSTART_NODE_COL);
+    // sets state property grid to be grid.
+    const grid = getInitialGrid();
+    setState({ grid });
   }, []);
 
   const handleMouseDown = (row, col) => {
@@ -133,6 +146,8 @@ const Visualizer = () => {
     const { grid } = state; //same as stating const grid = state.grid;
     resetVisited(grid);
     setState({ ...state, grid });
+    const { START_NODE_ROW, START_NODE_COL, FINISH_NODE_COL, FINISH_NODE_ROW } =
+      startOrEnd;
     const startNode = grid[START_NODE_ROW][START_NODE_COL];
     const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
     const visitedNodesInOrder = funct(grid, startNode, finishNode); //sets nodes in order
@@ -164,8 +179,8 @@ const Visualizer = () => {
     return {
       col,
       row,
-      isStart: row === START_NODE_ROW && col === START_NODE_COL,
-      isFinish: row === FINISH_NODE_ROW && col === FINISH_NODE_COL,
+      isStart: row === nSTART_NODE_ROW && col === nSTART_NODE_COL,
+      isFinish: row === nFINISH_NODE_ROW && col === nFINISH_NODE_COL,
       distance: Infinity,
       fscore: Infinity,
       isVisited: false,

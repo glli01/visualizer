@@ -34,7 +34,7 @@ export function astar(grid, startNode, endNode) {
 }
 
 const manhattanDistance = (node1, node2) => {
-  return Math.abs(node2.col - node1.col) + Math.abs(node2.row - node1.row);
+  return Math.abs(node1.col - node2.col) + Math.abs(node1.row - node2.row);
 };
 
 const sortNodesByFscore = (queue) => {
