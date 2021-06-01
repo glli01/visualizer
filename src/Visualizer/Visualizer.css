@@ -1,6 +1,7 @@
 * {
   margin: 0;
   padding: 0;
+  list-style: none;
 }
 .grid {
   margin: 30px 0 0 0;
@@ -60,6 +61,22 @@ button:hover {
 }
 .directory {
   margin: 0 10px;
+}
+#drop-down {
+  display: none;
+  position: absolute;
+  height: fit-content;
+  z-index: +50;
+  background-color: rgb(157, 194, 250);
+  padding: 0 2vw;
+  text-align: center;
+  color: white;
+}
+#drop-down > li {
+  padding: 5px;
+}
+.drop:hover #drop-down {
+  display: block;
 }
 
 /* FONTS */

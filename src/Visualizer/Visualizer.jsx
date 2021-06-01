@@ -18,7 +18,11 @@ let grid_rows;
 const Visualizer = () => {
   //defining the visualizer as a functional component instead of
   // a class
-  const [state, setState] = useState({ grid: [], mouseIsPressed: false }); // define necessary
+  const [state, setState] = useState({
+    grid: [],
+    mouseIsPressed: false,
+  });
+  const [visualizeFunct, setVisualizeFunct] = useState(() => dijkstra); // define necessary
   // parts of state.
   // componentDidMount
   useEffect(() => {
@@ -209,13 +213,23 @@ const Visualizer = () => {
       <div className="nav-bar flex-box between" id="nav-bar">
         <div className="logo">PATH VISUALIZER</div>
         <div className="directory flex-box">
+          <ul className="nav-item drop">
+            drop down
+            <div id="drop-down">
+              <li onClick={() => setVisualizeFunct(() => astar)}>astar</li>
+              <li onClick={() => setVisualizeFunct(() => bfs)}>BFS </li>
+              <li onClick={() => setVisualizeFunct(() => dijkstra)}>
+                Dijkstra
+              </li>
+            </div>
+          </ul>
           <div className="nav-item">algorithm</div>
           <div className="nav-item">algorithm</div>
           <div className="nav-item">algorithm</div>
           <div className="nav-item">algorithm</div>
           <div className="nav-item">algorithm</div>
           <button onClick={() => clearGrid()}>Clear</button>
-          <button onClick={() => visualize(astar)}>VISUALIZE</button>
+          <button onClick={() => visualize(visualizeFunct)}>VISUALIZE</button>
         </div>
       </div>
 
