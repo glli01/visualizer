@@ -15,6 +15,8 @@ let nFINISH_NODE_COL = 35;
 const MARGIN = 100;
 let grid_cols;
 let grid_rows;
+let shortestPathLambda = [];
+let animateLambda = [];
 const Visualizer = () => {
   //defining the visualizer as a functional component instead of
   // a class
@@ -89,12 +91,13 @@ const Visualizer = () => {
       // for all visited nodes
       if (i === visitedNodesInOrder.length) {
         // if last node... call special funct
-        setTimeout(() => {
+        let animation = setTimeout(() => {
           animateShortestPath(nodesInShortestPathOrder); //this will set classes
           //to facilitate animation (yellow)
         }, 5 * i); // calls animate shortest path every w/ step delay
+        animateLambda.push(animation);
       } else {
-        setTimeout(() => {
+        let animation = setTimeout(() => {
           //hacky way to display changes
           //TODO: Follow React Standards
           //replace getElement w/ refs.
@@ -102,6 +105,7 @@ const Visualizer = () => {
           document.getElementById(`node-${node.row}-${node.col}`).className =
             "node node-visited"; //sets node-visited for css animation (blue)
         }, 5 * i);
+        animateLambda.push(animation);
       }
     }
   };
@@ -109,11 +113,12 @@ const Visualizer = () => {
   //for animating final path (yellow)
   const animateShortestPath = (nodesInShortestPathOrder) => {
     for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
-      setTimeout(() => {
+      let animation = setTimeout(() => {
         const node = nodesInShortestPathOrder[i];
         document.getElementById(`node-${node.row}-${node.col}`).className =
           "node node-shortest-path"; //same as above.
       }, 50 * i);
+      shortestPathLambda.push(animation);
     }
   };
 
@@ -140,6 +145,8 @@ const Visualizer = () => {
             .classList.add("node-finish");
       }
     }
+    if (animateLambda) clearTimeout(animateLambda);
+    if (shortestPathLambda) clearTimeout(shortestPathLambda);
   };
 
   const visualize = (funct) => {
@@ -220,6 +227,12 @@ const Visualizer = () => {
             .getElementById(`node-${row}-${col}`)
             .classList.add("node-finish");
       }
+    }
+    if (animateLambda.length > 0) {
+      animateLambda.forEach((animation) => clearTimeout(animation));
+    }
+    if (shortestPathLambda.length > 0) {
+      shortestPathLambda.forEach((animation) => clearTimeout(animation));
     }
   };
 
