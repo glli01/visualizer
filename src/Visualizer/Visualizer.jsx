@@ -63,7 +63,11 @@ const Visualizer = () => {
   };
 
   //function for animating dijkstra (blue)
-  const animateDijkstra = (visitedNodesInOrder, nodesInShortestPathOrder) => {
+  const animate = (visitedNodesInOrder, nodesInShortestPathOrder) => {
+    if (!visitedNodesInOrder) {
+      console.log("visitedNodesInOrder is undefined");
+      return;
+    }
     for (let i = 0; i <= visitedNodesInOrder.length; i++) {
       // for all visited nodes
       if (i === visitedNodesInOrder.length) {
@@ -102,6 +106,8 @@ const Visualizer = () => {
         const node = grid[row][col];
         node.isVisited = false;
         node.previousNode = null;
+        node.distance = Infinity;
+        node.fscore = Infinity;
         document.getElementById(`node-${row}-${col}`).className = "node";
         if (node.isWall)
           document
@@ -130,9 +136,9 @@ const Visualizer = () => {
     //dijkstra's = take nieghbors unvisited, set new dist. until all nodes visited/end
     // at end, will have shortest dist bc first time a node is visited is guaranteed
     // to be the lowest dist.  (greedy)
-    // const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode); // sets nodes
+    const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode); // sets nodes
     // in shortestpath order to the prev chaining from method getNodesInShortestPath.
-    // animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder); // calls animation
+    animate(visitedNodesInOrder, nodesInShortestPathOrder); // calls animation
   };
 
   //GRID functions
