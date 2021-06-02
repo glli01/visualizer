@@ -18,6 +18,9 @@
   background-color: yellowgreen;
 }
 
+.node-tentative-finish {
+  background-color: pink;
+}
 .node-visited {
   animation-name: visitedAnimation;
   animation-duration: 1.5s;

@@ -73,14 +73,18 @@ const Visualizer = () => {
       return;
     }
 
-    if (row === FINISH_NODE_ROW && col == FINISH_NODE_COL) {
+    if ((row === FINISH_NODE_ROW && col == FINISH_NODE_COL) || finish) {
       //call finishNodemove method.
+      const newGrid = getNewGridWithNoFinishNode(state.grid, row, col);
+      finish = true;
+      setState({ grid: newGrid, mouseIsPressed: true }); // sets and rerenders app
+      return;
     }
     const newGrid = getNewGridWithWall(state.grid, row, col); // calls funct to set walls
     setState({ grid: newGrid, mouseIsPressed: true }); // sets and rerenders app
   };
 
-  const handleMouseEnter = (row, col, start, finish) => {
+  const handleMouseEnter = (row, col) => {
     if (!state.mouseIsPressed) return; // do nothing if mouse isn't held down
     //mouse enter handler (when cursor goes into square)
     const { START_NODE_ROW, START_NODE_COL, FINISH_NODE_COL, FINISH_NODE_ROW } =
@@ -90,13 +94,19 @@ const Visualizer = () => {
       getNewGridWithTentativeStartNode(state.grid, row, col);
       return;
     }
+
+    if (finish) {
+      //call startNode method
+      getNewGridWithTentativeFinishNode(state.grid, row, col);
+      return;
+    }
     const newGrid = getNewGridWithWall(state.grid, row, col);
     let newState = state;
     newState = { ...newState, grid: newGrid };
     setState(newState);
   };
 
-  const handleMouseUp = (row, col, start, finish) => {
+  const handleMouseUp = (row, col) => {
     //mouse up handler
     if (start) {
       getNewGridWithNewStartNode(state.grid, row, col);
@@ -105,6 +115,16 @@ const Visualizer = () => {
         ...startOrEnd,
         START_NODE_COL: col,
         START_NODE_ROW: row,
+      });
+    }
+
+    if (finish) {
+      getNewGridWithNewFinishNode(state.grid, row, col);
+      finish = false;
+      setStartOrEnd({
+        ...startOrEnd,
+        FINISH_NODE_COL: col,
+        FINISH_NODE_ROW: row,
       });
     }
     let newState = state;
@@ -125,6 +145,19 @@ const Visualizer = () => {
     return newGrid;
   };
 
+  const getNewGridWithNoFinishNode = (grid, row, col) => {
+    //add walls
+    const newGrid = grid.slice(); //shallow copy of grid
+    const node = newGrid[row][col];
+    const newNode = {
+      // toggles isWall prop
+      ...node,
+      isFinish: false,
+    };
+    newGrid[row][col] = newNode; // updates node in newGrid
+    return newGrid;
+  };
+
   const getNewGridWithNewStartNode = (grid, row, col) => {
     //add walls
     // TODO: make more efficient.
@@ -138,6 +171,20 @@ const Visualizer = () => {
     newGrid[row][col] = newNode; // updates node in newGrid
     return newGrid;
   };
+
+  const getNewGridWithNewFinishNode = (grid, row, col) => {
+    //add walls
+    // TODO: make more efficient.
+    const newGrid = grid.slice(); //shallow copy of grid
+    const node = newGrid[row][col];
+    const newNode = {
+      // toggles isWall prop
+      ...node,
+      isFinish: true,
+    };
+    newGrid[row][col] = newNode; // updates node in newGrid
+    return newGrid;
+  };
   const getNewGridWithTentativeStartNode = (grid, row, col) => {
     //add walls
     // TODO: make more efficient.
@@ -147,6 +194,17 @@ const Visualizer = () => {
     document
       .getElementById(`node-${row}-${col}`)
       .classList.add("node-tentative-start");
+  };
+
+  const getNewGridWithTentativeFinishNode = (grid, row, col) => {
+    //add walls
+    // TODO: make more efficient.
+    document
+      .querySelectorAll(".node-tentative-finish")
+      .forEach((e) => e.classList.remove("node-tentative-finish"));
+    document
+      .getElementById(`node-${row}-${col}`)
+      .classList.add("node-tentative-finish");
   };
 
   //function for animating dijkstra (blue)
@@ -353,10 +411,8 @@ const Visualizer = () => {
                     isWall={isWall}
                     mouseisPressed={state.mouseIsPressed}
                     onMouseDown={(row, col) => handleMouseDown(row, col)}
-                    onMouseEnter={(row, col) =>
-                      handleMouseEnter(row, col, start, finish)
-                    }
-                    onMouseUp={() => handleMouseUp(row, col, start, finish)}
+                    onMouseEnter={(row, col) => handleMouseEnter(row, col)}
+                    onMouseUp={() => handleMouseUp(row, col)}
                     row={row}
                   ></Node>
                 );
