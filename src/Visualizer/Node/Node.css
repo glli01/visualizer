@@ -14,6 +14,10 @@
   background-color: green;
 }
 
+.node-tentative-start {
+  background-color: yellowgreen;
+}
+
 .node-visited {
   animation-name: visitedAnimation;
   animation-duration: 1.5s;

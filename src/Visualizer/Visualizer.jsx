@@ -17,6 +17,8 @@ let grid_cols;
 let grid_rows;
 let shortestPathLambda = [];
 let animateLambda = [];
+let start = false;
+let finish = false;
 const Visualizer = () => {
   //defining the visualizer as a functional component instead of
   // a class
@@ -61,12 +63,32 @@ const Visualizer = () => {
 
   const handleMouseDown = (row, col) => {
     //mouse down handler
+    const { START_NODE_ROW, START_NODE_COL, FINISH_NODE_COL, FINISH_NODE_ROW } =
+      startOrEnd;
+    if (row === START_NODE_ROW && col === START_NODE_COL) {
+      //call startNode method
+      const newGrid = getNewGridWithNoStartNode(state.grid, row, col);
+      start = true;
+      return;
+    }
+
+    if (row === FINISH_NODE_ROW && col == FINISH_NODE_COL) {
+      //call finishNodemove method.
+    }
     const newGrid = getNewGridWithWall(state.grid, row, col); // calls funct to set walls
     setState({ grid: newGrid, mouseIsPressed: true }); // sets and rerenders app
   };
 
-  const handleMouseEnter = (row, col) => {
+  const handleMouseEnter = (row, col, start, finish) => {
     //mouse enter handler (when cursor goes into square)
+    const { START_NODE_ROW, START_NODE_COL, FINISH_NODE_COL, FINISH_NODE_ROW } =
+      startOrEnd;
+    if (start) {
+      //call startNode method
+      getNewGridWithNewStartNode(state.grid, row, col);
+
+      return;
+    }
     if (!state.mouseIsPressed) return; // do nothing if mouse isn't held down
     const newGrid = getNewGridWithWall(state.grid, row, col);
     let newState = state;
@@ -79,6 +101,26 @@ const Visualizer = () => {
     let newState = state;
     newState = { ...newState, mouseIsPressed: false };
     setState(newState); // sets mouse press = false, stop drawing walls.
+  };
+
+  const getNewGridWithNoStartNode = (grid, row, col) => {
+    //add walls
+    const newGrid = grid.slice(); //shallow copy of grid
+    const node = newGrid[row][col];
+    const newNode = {
+      // toggles isWall prop
+      ...node,
+      isStart: false,
+    };
+    newGrid[row][col] = newNode; // updates node in newGrid
+    return newGrid;
+  };
+
+  const getNewGridWithNewStartNode = (grid, row, col) => {
+    //add walls
+    document
+      .getElementById(`node-${row}-${col}`)
+      .classList.add("node-tentative-start");
   };
 
   //function for animating dijkstra (blue)
@@ -285,7 +327,9 @@ const Visualizer = () => {
                     isWall={isWall}
                     mouseisPressed={state.mouseIsPressed}
                     onMouseDown={(row, col) => handleMouseDown(row, col)}
-                    onMouseEnter={(row, col) => handleMouseEnter(row, col)}
+                    onMouseEnter={(row, col) =>
+                      handleMouseEnter(row, col, start, finish)
+                    }
                     onMouseUp={() => handleMouseUp()}
                     row={row}
                   ></Node>
