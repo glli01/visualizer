@@ -119,6 +119,9 @@ const Visualizer = () => {
   const getNewGridWithNewStartNode = (grid, row, col) => {
     //add walls
     document
+      .querySelectorAll(".node-tentative-start")
+      .forEach((e) => e.classList.remove("node-tentative-start"));
+    document
       .getElementById(`node-${row}-${col}`)
       .classList.add("node-tentative-start");
   };
