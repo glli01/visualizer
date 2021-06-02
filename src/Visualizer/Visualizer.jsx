@@ -65,7 +65,7 @@ const Visualizer = () => {
     //mouse down handler
     const { START_NODE_ROW, START_NODE_COL, FINISH_NODE_COL, FINISH_NODE_ROW } =
       startOrEnd;
-    if (row === START_NODE_ROW && col === START_NODE_COL) {
+    if ((row === START_NODE_ROW && col === START_NODE_COL) || start) {
       //call startNode method
       const newGrid = getNewGridWithNoStartNode(state.grid, row, col);
       start = true;
