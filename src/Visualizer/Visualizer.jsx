@@ -69,6 +69,7 @@ const Visualizer = () => {
       //call startNode method
       const newGrid = getNewGridWithNoStartNode(state.grid, row, col);
       start = true;
+      setState({ grid: newGrid, mouseIsPressed: true }); // sets and rerenders app
       return;
     }
 
@@ -80,24 +81,32 @@ const Visualizer = () => {
   };
 
   const handleMouseEnter = (row, col, start, finish) => {
+    if (!state.mouseIsPressed) return; // do nothing if mouse isn't held down
     //mouse enter handler (when cursor goes into square)
     const { START_NODE_ROW, START_NODE_COL, FINISH_NODE_COL, FINISH_NODE_ROW } =
       startOrEnd;
     if (start) {
       //call startNode method
-      getNewGridWithNewStartNode(state.grid, row, col);
-
+      getNewGridWithTentativeStartNode(state.grid, row, col);
       return;
     }
-    if (!state.mouseIsPressed) return; // do nothing if mouse isn't held down
     const newGrid = getNewGridWithWall(state.grid, row, col);
     let newState = state;
     newState = { ...newState, grid: newGrid };
     setState(newState);
   };
 
-  const handleMouseUp = () => {
+  const handleMouseUp = (row, col, start, finish) => {
     //mouse up handler
+    if (start) {
+      getNewGridWithNewStartNode(state.grid, row, col);
+      start = false;
+      setStartOrEnd({
+        ...startOrEnd,
+        START_NODE_COL: col,
+        START_NODE_ROW: row,
+      });
+    }
     let newState = state;
     newState = { ...newState, mouseIsPressed: false };
     setState(newState); // sets mouse press = false, stop drawing walls.
@@ -118,6 +127,20 @@ const Visualizer = () => {
 
   const getNewGridWithNewStartNode = (grid, row, col) => {
     //add walls
+    // TODO: make more efficient.
+    const newGrid = grid.slice(); //shallow copy of grid
+    const node = newGrid[row][col];
+    const newNode = {
+      // toggles isWall prop
+      ...node,
+      isStart: true,
+    };
+    newGrid[row][col] = newNode; // updates node in newGrid
+    return newGrid;
+  };
+  const getNewGridWithTentativeStartNode = (grid, row, col) => {
+    //add walls
+    // TODO: make more efficient.
     document
       .querySelectorAll(".node-tentative-start")
       .forEach((e) => e.classList.remove("node-tentative-start"));
@@ -333,7 +356,7 @@ const Visualizer = () => {
                     onMouseEnter={(row, col) =>
                       handleMouseEnter(row, col, start, finish)
                     }
-                    onMouseUp={() => handleMouseUp()}
+                    onMouseUp={() => handleMouseUp(row, col, start, finish)}
                     row={row}
                   ></Node>
                 );
