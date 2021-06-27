@@ -297,26 +297,32 @@ const Visualizer = () => {
 
   return (
     <>
-      <div className="nav-bar flex-box between" id="nav-bar">
-        <div className="logo">PATH VISUALIZER</div>
-        <div className="directory flex-box">
-          <ul className="nav-item drop">
-            drop down
-            <div id="drop-down">
-              <li onClick={() => setVisualizeFunct(() => astar)}>astar</li>
-              <li onClick={() => setVisualizeFunct(() => bfs)}>BFS </li>
-              <li onClick={() => setVisualizeFunct(() => dijkstra)}>
+      <div className="nav-back" id="nav-bar">
+        <div className="nav-bar flex-box between">
+          <div className="logo flex-box even"><img src={process.env.PUBLIC_URL + "/logo.svg"}></img><span className="logo-text">PATHY</span></div>
+          <div className="directory flex-box">
+            <div className="nav-item">MAZE </div>
+            <ul className="nav-item drop">
+              ALGORITHM
+              <div id="current-algo">
                 Dijkstra
-              </li>
+              </div>
+              <div id="drop-down">
+                <li onClick={() => setVisualizeFunct(() => astar)}>astar</li>
+                <li onClick={() => setVisualizeFunct(() => bfs)}>BFS </li>
+                <li onClick={() => setVisualizeFunct(() => dijkstra)}>
+                  Dijkstra
+                </li>
+              </div>
+            </ul>
+            <div className="nav-item">SPEED </div>
             </div>
-          </ul>
-          <div className="nav-item">algorithm</div>
-          <div className="nav-item">algorithm</div>
-          <div className="nav-item">algorithm</div>
-          <div className="nav-item">algorithm</div>
-          <div className="nav-item">algorithm</div>
-          <button onClick={() => clearGrid()}>Clear</button>
-          <button onClick={() => visualize(visualizeFunct)}>VISUALIZE</button>
+            
+            <div className="nav-buttons">
+              <button onClick={() => clearGrid()} className="clear">CLEAR</button>
+              <button onClick={() => visualize(visualizeFunct)}>VISUALIZE</button>
+            </div>
+
         </div>
       </div>
 

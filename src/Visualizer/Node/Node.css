@@ -1,7 +1,7 @@
 .node {
   width: 25px;
   height: 25px;
-  outline: 1px solid rgb(203, 231, 253);
+  outline: 1px solid rgb(250, 244, 229);
   display: inline-block;
   user-select: none;
 }
@@ -50,7 +50,8 @@
 
   100% {
     transform: scale(1);
-    background-color: rgba(0, 190, 218, 0.75);
+    background-color: rgba(0, 217, 255, 0.75);
+    outline: 1px solid rgba(0, 139, 160, 0.25);
   }
 }
 
