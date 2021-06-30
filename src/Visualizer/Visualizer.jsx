@@ -351,6 +351,24 @@ const Visualizer = () => {
       </div>
 
       {/* GRID */}
+      <div className="legend">
+        <div className="legend-item">
+          <img src={process.env.PUBLIC_URL + "Wall.svg"} alt="" />
+          <div className="key"> Wall Node</div>
+        </div>
+        <div className="legend-item">
+          <img src={process.env.PUBLIC_URL + "Path.svg"} alt="" />
+          <div className="key">Path</div>
+        </div>
+        <div className="legend-item">
+          <img src={process.env.PUBLIC_URL + "Visited.svg"}  alt="" />
+          <div className="key">Visited Node</div>
+        </div>
+        <div className="legend-item">
+          <img src={process.env.PUBLIC_URL + "Weight.svg"}  alt="" />
+          <div className="key">Weighted Node</div>
+        </div>
+      </div>
       <div className="grid">
         {state.grid.map((row, rowIDx) => {
           // element, index mapping fct.

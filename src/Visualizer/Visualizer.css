@@ -4,7 +4,7 @@
   list-style: none;
 }
 .grid {
-  margin: 70px auto auto auto;
+  margin: 0 auto auto auto;
   z-index: +5;
   box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
   width: fit-content;
@@ -126,6 +126,32 @@ button:hover {
   display: block;
 }
 
+.legend{
+  display: flex;
+  flex-direction: row;
+  height: 70px;
+  justify-content:space-around;
+  margin: auto;
+  width: 40vw;
+}
+
+.legend-item{
+  display: flex;
+  justify-content: space-evenly;
+  text-align:center;
+  width: fit-content;
+}
+.legend-item > img{
+  width: 25px;
+  height: 25px;
+  margin: auto;
+}
+.legend-item > .key{
+  font-size: 0.9em;
+  color: grey;
+  margin: auto 0;
+  padding: 10px;
+}
 /* FONTS */
 @font-face {
   font-family: "Nunito";
