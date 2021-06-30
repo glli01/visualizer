@@ -80,6 +80,7 @@ button:hover {
   padding: 0 30px;
   font-size: 1.3em;
   margin: auto;
+  position: relative;
 }
 .nav-item:hover {
   color: hsla(32, 92%, 74%, 1);
@@ -99,17 +100,27 @@ button:hover {
   margin: 0 10px;
 }
 #drop-down {
+  --drop-width: 70%;
   display: none;
   position: absolute;
   height: fit-content;
+  font-family: 'Visby Round CF';
+  font-size: 0.75em;
+  width: var(--drop-width);
+  left: calc((100% - var(--drop-width))/2);
   z-index: +50;
-  background-color: rgb(157, 194, 250);
-  padding: 0 2vw;
+  background-color: white;
   text-align: center;
-  color: white;
+  color: black;
+  box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.05);
 }
 #drop-down > li {
-  padding: 5px;
+  padding: 0.5rem 0;
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+}
+#drop-down > li:hover{
+  background-color:rgba(0, 0, 0, 0.05);
 }
 .drop:hover #drop-down {
   display: block;

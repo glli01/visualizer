@@ -40,18 +40,18 @@
   }
 
   50% {
-    background-color: rgba(17, 104, 217, 0.75);
+    background-color: rgba(217, 17, 17, 0.75);
   }
 
   75% {
     transform: scale(1.2);
-    background-color: rgba(0, 217, 159, 0.75);
+    background-color: rgba(217, 87, 0, 0.75);
   }
 
   100% {
     transform: scale(1);
-    background-color: rgba(0, 217, 255, 0.75);
-    outline: 1px solid rgba(0, 139, 160, 0.25);
+    background-color: rgba(255, 239, 185, 0.75);
+    outline: 1px solid rgb(238, 205, 116);
   }
 }
 
@@ -74,16 +74,16 @@
 @keyframes shortestPath {
   0% {
     transform: scale(0.6);
-    background-color: rgb(255, 254, 106);
+    background-color: rgb(152, 255, 238);
   }
 
   50% {
     transform: scale(1.2);
-    background-color: rgb(255, 254, 106);
+    background-color: rgb(152, 162, 255);
   }
 
   100% {
     transform: scale(1);
-    background-color: rgb(255, 254, 106);
+    background-color: rgb(152, 255, 238);
   }
 }

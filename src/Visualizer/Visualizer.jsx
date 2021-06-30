@@ -13,6 +13,7 @@ import {
   getNewGridWithTentativeFinishNode,
   getNewGridWithTentativeStartNode,
 } from "./Node/moveNode";
+import {randPrims } from "../algorithms/maze/randPrims";
 //arbitrary contents to decide grid size.
 //TODO: Responsive
 // refactor so that this is calculated by screen size.
@@ -52,6 +53,12 @@ const Visualizer = () => {
         MARGIN) /
         25
     );
+    if (grid_cols % 2 !== 1){
+      grid_cols--;
+    }
+    if (grid_rows % 2 !== 1){
+      grid_rows--;
+    }
     // calculate start_node_row / col
     nSTART_NODE_COL = Math.floor(grid_cols / 6);
     nSTART_NODE_ROW = Math.ceil(grid_rows / 2);
@@ -301,7 +308,14 @@ const Visualizer = () => {
         <div className="nav-bar flex-box between">
           <div className="logo flex-box even"><img src={process.env.PUBLIC_URL + "/logo.svg"}></img><span className="logo-text">PATHY</span></div>
           <div className="directory flex-box">
-            <div className="nav-item">MAZE </div>
+          <ul className="nav-item drop">
+              MAZE
+              <div id="drop-down">
+                <li onClick={() =>  {clearGrid();
+                const {grid} = state;
+                  setState({ ...state, grid: randPrims(grid) })}}>Prim's</li>
+              </div>
+            </ul>
             <ul className="nav-item drop">
               ALGORITHM
               <div id="current-algo">
@@ -309,9 +323,9 @@ const Visualizer = () => {
               </div>
               <div id="drop-down">
                 <li onClick={() => setVisualizeFunct(() => astar)}>astar</li>
-                <li onClick={() => setVisualizeFunct(() => bfs)}>BFS </li>
+                <li onClick={() => setVisualizeFunct(() => bfs)}>bfs </li>
                 <li onClick={() => setVisualizeFunct(() => dijkstra)}>
-                  Dijkstra
+                  dijkstra
                 </li>
               </div>
             </ul>
