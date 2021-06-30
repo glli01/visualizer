@@ -42,6 +42,7 @@ const Visualizer = () => {
     FINISH_NODE_ROW: 10,
   });
   const [visualizeFunct, setVisualizeFunct] = useState(() => dijkstra); // define necessary
+  const [visualizeFunctName, setVisualizeFunctName ] = useState("Dijkstra");
   // parts of state.
   // componentDidMount
   useEffect(() => {
@@ -313,7 +314,8 @@ const Visualizer = () => {
                 <li onClick={() =>  {
                 const {grid} = state;
                 // resetVisited(grid);
-                randPrims(grid);
+                randPrims(grid ,startOrEnd);
+                setStartOrEnd(startOrEnd);
                 setState({...state, grid});
                   }}>Prim's</li>
               </div>
@@ -321,12 +323,15 @@ const Visualizer = () => {
             <ul className="nav-item drop">
               ALGORITHM
               <div id="current-algo">
-                Dijkstra
+                {visualizeFunctName}
               </div>
               <div id="drop-down">
-                <li onClick={() => setVisualizeFunct(() => astar)}>astar</li>
-                <li onClick={() => setVisualizeFunct(() => bfs)}>bfs </li>
-                <li onClick={() => setVisualizeFunct(() => dijkstra)}>
+                <li onClick={() => {setVisualizeFunct(() => astar)
+                                    setVisualizeFunctName("A-star")}}>astar</li>
+                <li onClick={() => {setVisualizeFunct(() => bfs)
+                                    setVisualizeFunctName("Breadth-First search")}}>bfs </li>
+                <li onClick={() => {setVisualizeFunct(() => dijkstra)
+                                    setVisualizeFunctName("Dijkstra")}}>
                   dijkstra
                 </li>
               </div>
