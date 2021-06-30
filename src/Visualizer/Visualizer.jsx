@@ -275,8 +275,7 @@ const Visualizer = () => {
     return newGrid;
   };
 
-  const clearGrid = () => {
-    const { grid } = state;
+  const clearGrid = (grid) => {
     for (let row = 0; row < grid_rows; row++) {
       for (let col = 0; col < grid_cols; col++) {
         const node = grid[row][col];
@@ -311,9 +310,12 @@ const Visualizer = () => {
           <ul className="nav-item drop">
               MAZE
               <div id="drop-down">
-                <li onClick={() =>  {clearGrid();
+                <li onClick={() =>  {
                 const {grid} = state;
-                  setState({ ...state, grid: randPrims(grid) })}}>Prim's</li>
+                // resetVisited(grid);
+                randPrims(grid);
+                setState({...state, grid});
+                  }}>Prim's</li>
               </div>
             </ul>
             <ul className="nav-item drop">
@@ -333,7 +335,10 @@ const Visualizer = () => {
             </div>
             
             <div className="nav-buttons">
-              <button onClick={() => clearGrid()} className="clear">CLEAR</button>
+              <button onClick={() => {
+                const {grid} = state;
+                clearGrid(grid);
+              setState({...state, grid});}} className="clear">CLEAR</button>
               <button onClick={() => visualize(visualizeFunct)}>VISUALIZE</button>
             </div>
 

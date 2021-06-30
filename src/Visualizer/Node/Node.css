@@ -14,13 +14,7 @@
   background-color: green;
 }
 
-.node-tentative-start {
-  background-color: yellowgreen;
-}
 
-.node-tentative-finish {
-  background-color: pink;
-}
 .node-visited {
   animation-name: visitedAnimation;
   animation-duration: 1.5s;
@@ -86,4 +80,12 @@
     transform: scale(1);
     background-color: rgb(152, 255, 238);
   }
+}
+
+.node-tentative-start {
+  background-color: yellowgreen;
+}
+
+.node-tentative-finish {
+  background-color: pink;
 }
