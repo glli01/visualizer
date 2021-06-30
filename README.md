@@ -1,3 +1,6 @@
 # Visualizer
-
-This repo is dedicated to a pathfinding visualizer side project to better understand and expand my knowledge of react.
+This pathfinding visualizer is created to visualize graph search algorithms as well as maze-generation.
+It is hosted at:
+pathyy.com
+or
+pathyyy.herokuapp.com
