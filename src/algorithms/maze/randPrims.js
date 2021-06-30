@@ -21,16 +21,6 @@ export function randPrims( grid ){
     })
     rowNum++;
   })
-  // return grid
-
-  // grid.forEach(row => {
-
-  //   row.forEach(Node => {
-  //     if (!Node.isWall){
-  //         queue.push(Node);
-  //     }
-  //   })
-  // })
   if (true) {
     let randInt = Math.floor(Math.random() * (queue.length));
     let Node = queue[randInt];
@@ -44,7 +34,6 @@ export function randPrims( grid ){
   }
 
   while(maze.length){
-    // maze = maze.filter(node => !node.isVisited);
     let randInt = Math.floor(Math.random() * (maze.length));
     let Node = maze[randInt];
     maze.splice(randInt, 1);
@@ -64,9 +53,6 @@ export function randPrims( grid ){
     if (visitedNeighbors.length > 0){
       let chosenNode = visitedNeighbors[random];
       chosenNode.isVisited = true;
-      // chosenNode.isFinished = true;
-      // unvisitedNeighbors = getUnvisitedNeighborCells(chosenNode, grid);
-      // unvisitedNeighbors.forEach( neighbor => maze.push(neighbor));
       let wall = getCellBetween(chosenNode, Node, grid);
       wall.isWall = false;
     }
@@ -74,53 +60,6 @@ export function randPrims( grid ){
   return grid;
 }
 
-
-  // let queue = [];
-  // for (let i = 1; i < grid.length; i++){
-  //   for (let j = 1; j < grid[0].length; j++){
-  //     queue.push(grid[i][j]);
-  //   }
-  // }
-  
-  //   let randRow = 1 + Math.floor(Math.random() * (grid.length));
-  //   let randCol = Math.floor(Math.random() * (grid[0].length));
-  //   let Node = grid[randRow][randCol];
-  //   Node.isWall = false;
-  //   Node.isVisited = true;
-  //   let neighbors = getNeighborWalls(Node, grid);
-  //   neighbors.forEach( wall => {
-  //      queue.push(wall);
-  //   })
-
-  // while (queue.length){
-  //   let randInt = Math.floor(Math.random() * (queue.length));
-  //   let Wall = queue[randInt];
-  //   let adjCells = getNeighborCells(Wall, grid);
-  //   if (adjCells.filter( cell => cell.isVisited).length === 1){
-  //     Wall.isWall = false;
-  //     let visitedNode = adjCells[0];
-  //     let newNode = visitedNode;
-  //     if (visitedNode.col !== Wall.col){
-  //       if (visitedNode.col === Wall.col - 1){
-  //           let newNode = grid[Wall.row][Wall.col+1];
-  //       } else {
-  //         let newNode = grid[Wall.row][Wall.col - 1];
-  //       }
-  //     } else {
-  //       if (visitedNode.row === Wall.row - 1){
-  //         let newNode = grid[Wall.row + 1][Wall.col];
-  //       } else {
-  //         let newNode = grid[Wall.row - 1][Wall.col];
-  //       }
-  //     }
-  //     let neighbors = getNeighborWalls(newNode, grid);
-  //     neighbors.forEach( wall => {
-  //       queue.push(wall);
-  //    })
-  //   }
-  //   queue.splice(randInt, 1);
-  // }
-  //
 const getNeighborWalls = (node, grid) => {
   const neighbors = [];
   const { col, row } = node;
