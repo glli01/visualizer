@@ -313,7 +313,7 @@ const Visualizer = () => {
               <div id="drop-down">
                 <li onClick={() =>  {
                 const {grid} = state;
-                // resetVisited(grid);
+                resetVisited(grid);
                 randPrims(grid ,startOrEnd);
                 setStartOrEnd(startOrEnd);
                 setState({...state, grid});
