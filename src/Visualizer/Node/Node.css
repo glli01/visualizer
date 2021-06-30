@@ -83,9 +83,15 @@
 }
 
 .node-tentative-start {
-  background-color: yellowgreen;
+  background-color: yellowgreen !important;
 }
 
 .node-tentative-finish {
+  background-color: pink !important;
+}
+.node .node-visited .node-tentative-start{
+  background-color: yellowgreen;
+}
+.node .node-visited .node-tentative-finish{
   background-color: pink;
 }
